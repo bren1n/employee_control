@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <h1>Coordenadores</h1>
+    <br>
+    <a class="btn btn-primary" href="{% url 'create_manager' %}" role="button">Cadastrar coordenador</a>
+    <br><br>
+    <table class="table">
+        <thead class="table-light">
+            <th>#</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Cidade</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for manager in managers %}
+            <tr>
+                <td>{{ manager.id }}</td>
+                <td>{{ manager.name }}</td>
+                <td>{{ manager.phone|default:"-" }}</td>
+                <td>{{ manager.city.name }}</td>
+                <td><a href="{% url 'edit_manager' manager.id %}"><i class="bi bi-pencil"></i></a></td>
+                <td><a href="{% url 'delete_manager' manager.id %}"><i class="bi bi-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
