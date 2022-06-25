@@ -17,6 +17,9 @@ class Manager(models.Model):
     city = models.ForeignKey(
         'City', on_delete=models.CASCADE, verbose_name='Cidade')
 
+    def __str__(self):
+        return self.name
+
 
 class Employee(models.Model):
     name = models.CharField(max_length=100, null=False,
@@ -25,3 +28,6 @@ class Employee(models.Model):
                              blank=False, verbose_name='Telefone')
     city = models.ForeignKey(
         'City', on_delete=models.CASCADE, verbose_name='Cidade')
+
+    def __str__(self):
+        return self.name

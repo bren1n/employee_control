@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 
-from app.forms import ManagerForm
-from .models import Manager
+from app.forms import EmployeeForm, ManagerForm
+from .models import Employee, Manager
 
 
 def list_managers(request):
@@ -39,6 +39,41 @@ def delete_manager(request, pk):
         return redirect('/coordenador/')
 
     return render(request, 'delete_manager.html')
+
+def list_employees(request):
+    employees = Employee.objects.all()
+
+    return render(request, 'employees.html', {'employees': employees})
+
+def create_employee(request):
+    form = EmployeeForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('/funcionario/')
+
+    return render(request, 'create_employee.html', {'form': form})
+
+
+def edit_employee(request, pk):
+    employee = get_object_or_404(Employee, id=pk)
+    form = ManagerForm(request.POST or None, instance=employee)
+
+    if form.is_valid():
+        form.save()
+        return redirect('/funcionario/')
+
+    return render(request, 'create_employee.html', {'form': form})
+
+
+def delete_employee(request, pk):
+    employee = get_object_or_404(Employee, id=pk)
+
+    if request.method == 'POST':
+        employee.delete()
+        return redirect('/funcionario/')
+
+    return render(request, 'delete_employee.html')
 
 
 def hello_world(request):
