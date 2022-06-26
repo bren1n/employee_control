@@ -4,14 +4,48 @@
 
 <br>
 <div class="container">
+    {% if request.resolver_match.url_name == 'edit_employee' %}
+    <h1>Editar funcionário</h1>
+    {% else %}
     <h1>Cadastrar funcionário</h1>
+    {% endif %}
     <div class="form-group">
         <form method="POST" id="new-product">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Salvar funcionário</button>
+            <div class="text-end">
+                <a class="btn btn-secondary" href="{% url 'list_employees' %}" role="button">Cancelar</a>
+                <button class="btn btn-primary">Salvar funcionário</button>
+            </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById("id_city").addEventListener('change', function () {
+        document.getElementById('id_manager').innerHTML = '';
+        $.ajax({
+            type: 'GET',
+            url: '/filtra_coordenadores/',
+            data: {
+                city: $('#id_city').val(),
+            },
+            dataType: 'json',
+            success: function (response) {
+                let select = document.getElementById('id_manager');
+                let empty_option = document.createElement('option');
+                empty_option.innerHTML = '---------';
+                select.appendChild(empty_option);
+
+                for (let i = 0; i < response.managers.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = response.managers[i]['id'];
+                    option.innerHTML = response.managers[i]['name'];
+                    select.appendChild(option);
+                }
+            }
+        })
+    })
+</script>
 
 {% endblock %}

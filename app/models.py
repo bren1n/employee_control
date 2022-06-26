@@ -28,6 +28,8 @@ class Employee(models.Model):
                              blank=False, verbose_name='Telefone')
     city = models.ForeignKey(
         'City', on_delete=models.CASCADE, verbose_name='Cidade')
+    manager = models.ForeignKey(
+        'Manager', on_delete=models.CASCADE, verbose_name='Coordenador')
 
     def __str__(self):
         return self.name

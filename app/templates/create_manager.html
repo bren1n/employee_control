@@ -4,12 +4,19 @@
 
 <br>
 <div class="container">
-    <h1>Cadastrar gerente</h1>
+    {% if request.resolver_match.url_name == 'edit_manager' %}
+    <h1>Editar coordenador</h1>
+    {% else %}
+    <h1>Cadastrar coordenador</h1>
+    {% endif %}
     <div class="form-group">
         <form method="POST" id="new-product">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Salvar gerente</button>
+            <div class="text-end">
+                <a class="btn btn-secondary" href="{% url 'list_managers' %}" role="button">Cancelar</a>
+                <button class="btn btn-secondary">Salvar gerente</button>
+            </div>
         </form>
     </div>
 </div>

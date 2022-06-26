@@ -20,9 +20,10 @@ class EmployeeForm(forms.ModelForm):
 
     class Meta:
         model = Employee
-        fields = ('name', 'phone', 'city')
+        fields = ('name', 'phone', 'city', 'manager')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.Select(attrs={'class': 'form-control'}),
+            'manager': forms.Select(attrs={'class': 'form-control'}),
         }

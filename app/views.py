@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from app.forms import EmployeeForm, ManagerForm
@@ -57,7 +57,7 @@ def create_employee(request):
 
 def edit_employee(request, pk):
     employee = get_object_or_404(Employee, id=pk)
-    form = ManagerForm(request.POST or None, instance=employee)
+    form = EmployeeForm(request.POST or None, instance=employee)
 
     if form.is_valid():
         form.save()
@@ -74,6 +74,20 @@ def delete_employee(request, pk):
         return redirect('/funcionario/')
 
     return render(request, 'delete_employee.html')
+
+def get_managers(request):
+    city = request.GET.get('city', None)
+    
+    if city:
+        managers = list(Manager.objects.filter(city=city).values('id', 'name'))
+    else:
+        managers = list(Manager.objects.all().values('id', 'name'))
+
+    response_data = {
+        'managers': managers
+    }
+
+    return JsonResponse(response_data)
 
 
 def hello_world(request):
